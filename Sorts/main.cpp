@@ -7,9 +7,17 @@
 //
 
 #include <iostream>
+#include <vector>
+#include <time.h>
+#include <random>
+#include <chrono>
+#include "Sorts.hpp"
 
-int main(int argc, const char * argv[]) {
-    // insert code here...
-    std::cout << "Hello, World!\n";
+
+int main(int argc, const char * argv[])
+{
+    Sorts sort("output.txt", 100);
+    sort.BubbleSort();
+    
     return 0;
 }
