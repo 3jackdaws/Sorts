@@ -9,23 +9,33 @@
 #ifndef Sorts_hpp
 #define Sorts_hpp
 
-#include <stdio.h>
+#include <iostream>
 #include <vector>
 #include <fstream>
+#include "Array.h"
 
 class Sorts
 {
 public:
-    Sorts(char * inputfile, int size);
+    Sorts(char * inputfile, int size, int iterations = 1);
     void BubbleSort();
+    void FlaggedBubble();
+    void StraightSelection();
+    void LinearInsertion();
+    void ShellSort();
+    void HeapSort();
 private:
     void Display(int array);
     void Shuffle();
     void Init();
+    
     int m_size;
+    int m_interations;
     
     int * m_array;
     std::vector<int> m_vector;
+    Array<int> m_myarray;
+    
     std::ofstream m_outfile;
 };
 

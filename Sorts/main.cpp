@@ -16,8 +16,14 @@
 
 int main(int argc, const char * argv[])
 {
-    Sorts sort("output.txt", 100);
-    sort.BubbleSort();
+    Sorts sort("output.txt", 100, 1000);
+//    sort.BubbleSort();
+//    sort.FlaggedBubble();
+//    sort.StraightSelection();
+//    sort.LinearInsertion();
+//    sort.ShellSort();
+    sort.HeapSort();
     
+   
     return 0;
 }
