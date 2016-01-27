@@ -9,14 +9,21 @@
 #include <iostream>
 #include "Sorts.hpp"
 
-int main()
+int main(int argc, char ** argv)
 {
-    Sorts sort("input.txt", 100, 20);
+    int n, i;
+    if(argc == 2)
+        n = atoi(argv[1]);
+    else if(argc == 3)
+        n = atoi(argv[1]), i = atoi(argv[2]);
+    else
+        n = 501, i = 10;
+    Sorts sort(n, i);
     sort.BubbleSortBench();
-//    sort.FlaggedBubbleBench()();
-//    sort.StraightSelection();
-//    sort.LinearInsertion();
-//    sort.ShellSort();
-    //sort.HeapSort();
+    sort.FlaggedBubbleBench();
+    sort.StraightSelectionBench();
+    sort.LinearInsertionBench();
+    sort.ShellSortBench();
+    sort.HeapSortBench();
     return 0;
 }

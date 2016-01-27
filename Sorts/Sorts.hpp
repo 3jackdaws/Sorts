@@ -17,30 +17,11 @@
 using time_point = std::chrono::steady_clock::time_point;
 
 
-template <typename T, int S>
-class carray_wrapper
-{
-public:
-    carray_wrapper(T arr[])
-    {
-        for(int i = 0; i<S; i++)
-        {
-            _array[i] = arr[i];
-        }
-    }
-    T & operator [] (int index)
-    {
-        return _array[index];
-    }
-private:
-    T _array[S];
-};
-
 
 class Sorts
 {
 public:
-    Sorts(const char * inputfile, int size, int iterations = 1);
+    Sorts( int size, int iterations = 1);
     
     template <typename T>
     void BubbleSortC(T array);
