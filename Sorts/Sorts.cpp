@@ -7,7 +7,7 @@
 //
 
 #include "Sorts.hpp"
-Sorts::Sorts(char * output, int size, int iterations) : m_size(size), m_interations(iterations)
+Sorts::Sorts(const char * output, int size, int iterations) : m_size(size), m_interations(iterations)
 {
     m_outfile = std::ofstream(output);
     m_array = new int[size];
@@ -69,7 +69,42 @@ void Sorts::Display(int array)
     
 }
 
-void Sorts::BubbleSort()
+template <typename T>
+void Sorts::BubbleSortC(T array)
+{
+    for (int i = 0; i<m_size; i++)
+    {
+        for (int ii = 0; ii<m_size - i -1; ii++)
+        {
+            if(array[ii] > array[ii + 1])
+            {
+                int hold = array[ii];
+                array[ii] = array[ii+1];
+                array[ii+1] = hold;
+            }
+        }
+    }
+}
+
+template <typename T>
+void Sorts::BubbleSort(T & array)
+{
+    for (int i = 0; i<m_size; i++)
+    {
+        for (int ii = 0; ii<m_size - i -1; ii++)
+        {
+            if(array[ii] > array[ii + 1])
+            {
+                int hold = array[ii];
+                array[ii] = array[ii+1];
+                array[ii+1] = hold;
+            }
+        }
+    }
+}
+
+
+void Sorts::BubbleSortBench()
 {
     double carray_average = 0;
     double vector_average = 0;
@@ -84,57 +119,21 @@ void Sorts::BubbleSort()
         }
         std::vector<int> this_vector = m_vector;
         Array<int> this_myarray = m_myarray;
+        carray_wrapper<int, 100> carr(array);
         
-        
-        auto begin = std::chrono::high_resolution_clock::now();
-        for (int i = 0; i<m_size; i++)
-        {
-            for (int ii = 0; ii<m_size - i -1; ii++)
-            {
-                if(array[ii] > array[ii + 1])
-                {
-                    int hold = array[ii];
-                    array[ii] = array[ii+1];
-                    array[ii+1] = hold;
-                }
-            }
-        }
-        auto end = std::chrono::high_resolution_clock::now();
+        time_point begin = std::chrono::high_resolution_clock::now();
+        BubbleSortC(array);
+        time_point end = std::chrono::high_resolution_clock::now();
         carray_average += std::chrono::duration_cast<std::chrono::nanoseconds>(end-begin).count();
         
         
-        
         begin = std::chrono::high_resolution_clock::now();
-        for (int i = 0; i<m_size; i++)
-        {
-            for (int ii = 0; ii<m_size - i -1; ii++)
-            {
-                if(this_vector[ii] > this_vector[ii + 1])
-                {
-                    int hold = this_vector[ii];
-                    this_vector[ii] = this_vector[ii+1];
-                    this_vector[ii+1] = hold;
-                }
-            }
-        }
+        BubbleSort(m_vector);
         end = std::chrono::high_resolution_clock::now();
         vector_average += std::chrono::duration_cast<std::chrono::nanoseconds>(end-begin).count();
         
-        
-        
         begin = std::chrono::high_resolution_clock::now();
-        for (int i = 0; i<m_size; i++)
-        {
-            for (int ii = 0; ii<m_size - i -1; ii++)
-            {
-                if(this_myarray[ii] > this_myarray[ii + 1])
-                {
-                    int hold = this_myarray[ii];
-                    this_myarray[ii] = this_myarray[ii+1];
-                    this_myarray[ii+1] = hold;
-                }
-            }
-        }
+        BubbleSort(m_myarray);
         end = std::chrono::high_resolution_clock::now();
         myarray_average += std::chrono::duration_cast<std::chrono::nanoseconds>(end-begin).count();
         
@@ -147,7 +146,7 @@ void Sorts::BubbleSort()
     std::cout<<"\nmyarray average for "<<m_interations<<" iteration(s): "<<(myarray_average/m_interations)/1000<< " us"<<std::endl;
 }
 
-void Sorts::FlaggedBubble()
+void Sorts::FlaggedBubbleBench()
 {
     
     
@@ -168,7 +167,7 @@ void Sorts::FlaggedBubble()
         Array<int> this_myarray = m_myarray;
         
         
-        auto begin = std::chrono::high_resolution_clock::now();
+        time_point begin = std::chrono::high_resolution_clock::now();
         bool sorted = false;
         for (int i = 0; i<m_size && !sorted; i++)
         {
@@ -185,7 +184,7 @@ void Sorts::FlaggedBubble()
             }
         }
 
-        auto end = std::chrono::high_resolution_clock::now();
+        time_point end = std::chrono::high_resolution_clock::now();
         carray_average += std::chrono::duration_cast<std::chrono::nanoseconds>(end-begin).count();
         
         
@@ -239,7 +238,7 @@ void Sorts::FlaggedBubble()
     std::cout<<"\nmyarray average for "<<m_interations<<" iteration(s): "<<(myarray_average/m_interations)/1000<< " us"<<std::endl;
 }
 
-void Sorts::StraightSelection()
+void Sorts::StraightSelectionBench()
 {
     double carray_average = 0;
     double vector_average = 0;
@@ -258,7 +257,7 @@ void Sorts::StraightSelection()
         Array<int> this_myarray = m_myarray;
         
         
-        auto begin = std::chrono::high_resolution_clock::now();
+        time_point begin = std::chrono::high_resolution_clock::now();
         for (int i = 0; i<m_size-1; i++)
         {
             int minimum = i;
@@ -276,7 +275,7 @@ void Sorts::StraightSelection()
                 array[minimum] = swap;
             }
         }
-        auto end = std::chrono::high_resolution_clock::now();
+        time_point end = std::chrono::high_resolution_clock::now();
         carray_average += std::chrono::duration_cast<std::chrono::nanoseconds>(end-begin).count();
         
         
@@ -334,7 +333,7 @@ void Sorts::StraightSelection()
     
 }
 
-void Sorts::LinearInsertion()
+void Sorts::LinearInsertionBench()
 {
     double carray_average = 0;
     double vector_average = 0;
@@ -353,7 +352,7 @@ void Sorts::LinearInsertion()
         Array<int> this_myarray = m_myarray;
         
         
-        auto begin = std::chrono::high_resolution_clock::now();
+        time_point begin = std::chrono::high_resolution_clock::now();
         for (int i = 1; i<m_size; i++)
         {
             int temp = array[i];
@@ -365,7 +364,7 @@ void Sorts::LinearInsertion()
             array[j] = temp;
         }
 
-        auto end = std::chrono::high_resolution_clock::now();
+        time_point end = std::chrono::high_resolution_clock::now();
         carray_average += std::chrono::duration_cast<std::chrono::nanoseconds>(end-begin).count();
         
         
@@ -410,7 +409,7 @@ void Sorts::LinearInsertion()
     
 }
 
-void Sorts::ShellSort()
+void Sorts::ShellSortBench()
 {
     double carray_average = 0;
     double vector_average = 0;
@@ -418,7 +417,7 @@ void Sorts::ShellSort()
     
     int h = 0;
     int i = 0;
-    int sorts[20];
+    int sorts[100];
     for(i = 0; h<m_size;i++)
     {
         h = 3*h+1;
@@ -439,7 +438,8 @@ void Sorts::ShellSort()
         Array<int> this_myarray = m_myarray;
         
         
-        auto begin = std::chrono::high_resolution_clock::now();
+        time_point begin = std::chrono::high_resolution_clock::now();
+        
         for(int ii = i-1; ii>=0; ii--)
         {
             int gap = sorts[ii];
@@ -456,7 +456,7 @@ void Sorts::ShellSort()
         }
 
         
-        auto end = std::chrono::high_resolution_clock::now();
+        time_point end = std::chrono::high_resolution_clock::now();
         carray_average += std::chrono::duration_cast<std::chrono::nanoseconds>(end-begin).count();
         
         
@@ -510,23 +510,56 @@ void Sorts::ShellSort()
     std::cout<<"\nmyarray average for "<<m_interations<<" iteration(s): "<<(myarray_average/m_interations)/1000<< " us"<<std::endl;
 }
 
-void Sorts::HeapSort()
+template <typename T>
+void Sorts::HeapSort(T & array)
 {
-    /*   =======   Create array copies ======  */
-    int array[m_size];
-    for (int i = 0; i<m_size; i++)
+    BuildHeap(array);
+    for (int i = m_size-1; i>=0; i--)
     {
-        array[i] = m_array[i];
-    }
-    std::vector<int> this_vector = m_vector;
-    Array<int> this_myarray = m_myarray;
-    
-    
-    
-    
-    
-    for (int i = 0; i<m_size; i++)
-    {
-        std::cout<<array[i]<<std::endl;
+        int swap = array[0];
+        array[0] = array[i];
+        array[i] = swap;
+        Heapify(array, 0, i-1);
     }
 }
+
+template <typename T>
+void Sorts::Heapify(T array, int i, int size)
+{
+    int left = 2*i;
+    int right = 2*i+1;
+    int max;
+    if (left <= size && array[left] > array[i])
+        max = left;
+    else
+    {
+        max = i;
+    }
+    if (right <= size && array[right] > array[max])
+        max = right;
+        
+    if (max != i)
+    {
+        int swap = array[i];
+        array[i] = array[max];
+        array[max] = swap;
+        Heapify(array, max, size);
+    }
+        
+}
+
+template <typename T>
+void Sorts::BuildHeap(T array)
+{
+    for (int i = m_size/2; i>=0; i--)
+    {
+        Heapify(array, i, m_size);
+    }
+    
+}
+
+
+
+
+
+
