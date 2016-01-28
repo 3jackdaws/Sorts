@@ -24,34 +24,28 @@ public:
     Sorts( int size, int iterations = 1);
     
     template <typename T>
-    void BubbleSortC(T array);
-    template <typename T>
     void BubbleSort(T & array);
-    
-    template <typename T>
-    void FlaggedBubbleC(T);
+
     template <typename T>
     void FlaggedBubble(T &);
     
     template <typename T>
-    void StraightSelectionC(T);
-    template <typename T>
     void StraightSelection(T&);
-    
-    template <typename T>
-    void LinearInsertionC(T);
+
     template <typename T>
     void LinearInsertion(T&);
     
     template <typename T>
-    void ShellSortC(T);
-    template <typename T>
     void ShellSort(T&);
     
     template <typename T>
-    void HeapSortC(T);
-    template <typename T>
     void HeapSort(T&);
+    
+    template <typename T>
+    void MergeSort(T&);
+    
+    template <typename T>
+    void QuickSort(T&);
 
     
     void BubbleSortBench();
@@ -60,14 +54,24 @@ public:
     void LinearInsertionBench();
     void HeapSortBench();
     void ShellSortBench();
+    void MergeSortBench();
+    void QuickSortBench();
     
     bool SortedCorrectly();
 private:
     template <typename T>
-    void BuildHeap(T);
+    void BuildHeap(T&);
+    template <typename T>
+    void Heapify(T&, int, int);
     
     template <typename T>
-    void Heapify(T, int, int);
+    void QuickSort(T&, int, int);
+    
+    template <typename T>
+    void MergeSort(T & array, int * temp, int left, int right);
+    
+    template <typename T>
+    void Merge(T & array, int * temp, int left, int right, int right_end);
     
     void Display(int array);
     void Shuffle();

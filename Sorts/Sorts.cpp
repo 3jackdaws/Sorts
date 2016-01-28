@@ -69,22 +69,6 @@ void Sorts::Display(int array)
     
 }
 
-template <typename T>
-void Sorts::BubbleSortC(T array)
-{
-    for (int i = 0; i<m_size; i++)
-    {
-        for (int ii = 0; ii<m_size - i -1; ii++)
-        {
-            if(array[ii] > array[ii + 1])
-            {
-                int hold = array[ii];
-                array[ii] = array[ii+1];
-                array[ii+1] = hold;
-            }
-        }
-    }
-}
 
 template <typename T>
 void Sorts::BubbleSort(T & array)
@@ -113,7 +97,7 @@ void Sorts::BubbleSortBench()
     for (int num_iter = 0; num_iter<m_interations; num_iter++)
     {
         /*   =======   Create array copies ======  */
-        int array[m_size];
+        int * array = new int[m_size];
         for (int i = 0; i<m_size; i++)
         {
             array[i] = m_array[i];
@@ -122,7 +106,7 @@ void Sorts::BubbleSortBench()
         Array<int> this_myarray = m_myarray;
         
         time_point begin = std::chrono::high_resolution_clock::now();
-        BubbleSortC(array);
+        BubbleSort(array);
         time_point end = std::chrono::high_resolution_clock::now();
         carray_average += std::chrono::duration_cast<std::chrono::nanoseconds>(end-begin).count();
         
@@ -140,31 +124,12 @@ void Sorts::BubbleSortBench()
         c_at_500 = array[500];
         m_at_500 = this_myarray[500];
     }   //end for loop
-    std::cout<<"-------BRUTEFORCE BUBBLESORT--------"<<"[500] = "<<c_at_500<<" "<< v_at_500 <<" "<<m_at_500<<std::endl;
+    std::cout<<"\n-------BRUTEFORCE BUBBLESORT--------"<<"[500] = "<<c_at_500<<" "<< v_at_500 <<" "<<m_at_500<<std::endl;
     std::cout<<"C Array average for "<<m_interations<<" iteration(s): "<<(carray_average/m_interations)/1000<< " us";
     std::cout<<"\nVector average for "<<m_interations<<" iteration(s): "<<(vector_average/m_interations)/1000<< " us";
     std::cout<<"\nmyarray average for "<<m_interations<<" iteration(s): "<<(myarray_average/m_interations)/1000<< " us"<<std::endl;
 }
 
-template <typename T>
-void Sorts::FlaggedBubbleC(T array)
-{
-    bool sorted = false;
-    for (int i = 0; i<m_size && !sorted; i++)
-    {
-        sorted = true;
-        for (int ii = 0; ii<m_size - i -1; ii++)
-        {
-            if(array[ii] > array[ii + 1])
-            {
-                sorted = false;
-                int hold = array[ii];
-                array[ii] = array[ii+1];
-                array[ii+1] = hold;
-            }
-        }
-    }
-}
 
 template <typename T>
 void Sorts::FlaggedBubble(T & array)
@@ -195,7 +160,7 @@ void Sorts::FlaggedBubbleBench()
     for (int num_iter = 0; num_iter<m_interations; num_iter++)
     {
         /*   =======   Create array copies ======  */
-        int array[m_size];
+        int * array = new int[m_size];
         for (int i = 0; i<m_size; i++)
         {
             array[i] = m_array[i];
@@ -204,7 +169,7 @@ void Sorts::FlaggedBubbleBench()
         Array<int> this_myarray = m_myarray;
         
         time_point begin = std::chrono::high_resolution_clock::now();
-        FlaggedBubbleC(array);
+        FlaggedBubble(array);
         time_point end = std::chrono::high_resolution_clock::now();
         carray_average += std::chrono::duration_cast<std::chrono::nanoseconds>(end-begin).count();
         
@@ -223,34 +188,12 @@ void Sorts::FlaggedBubbleBench()
         c_at_500 = array[500];
         m_at_500 = this_myarray[500];
     }   //end for loop
-    std::cout<<"-------FLAGGED BUBBLESORT--------"<<"[500] = "<<c_at_500<<" "<< v_at_500 <<" "<<m_at_500<<std::endl;
+    std::cout<<"\n-------FLAGGED BUBBLESORT--------"<<"[500] = "<<c_at_500<<" "<< v_at_500 <<" "<<m_at_500<<std::endl;
     std::cout<<"C Array average for "<<m_interations<<" iteration(s): "<<(carray_average/m_interations)/1000<< " us";
     std::cout<<"\nVector average for "<<m_interations<<" iteration(s): "<<(vector_average/m_interations)/1000<< " us";
     std::cout<<"\nmyarray average for "<<m_interations<<" iteration(s): "<<(myarray_average/m_interations)/1000<< " us"<<std::endl;
 }
 
-template <typename T>
-void Sorts::StraightSelectionC(T array)
-{
-    for (int i = 0; i<m_size-1; i++)
-    {
-        int minimum = i;
-        for (int ii = minimum+1; ii<m_size; ii++)
-        {
-            if(array[ii] < array[minimum])
-            {
-                minimum = ii;
-            }
-        }
-        if(minimum != i)
-        {
-            int swap = array[i];
-            array[i] = array[minimum];
-            array[minimum] = swap;
-        }
-    }
-
-}
 
 template <typename T>
 void Sorts::StraightSelection(T & array)
@@ -284,7 +227,7 @@ void Sorts::StraightSelectionBench()
     for (int num_iter = 0; num_iter<m_interations; num_iter++)
     {
         /*   =======   Create array copies ======  */
-        int array[m_size];
+        int * array = new int[m_size];
         for (int i = 0; i<m_size; i++)
         {
             array[i] = m_array[i];
@@ -293,7 +236,7 @@ void Sorts::StraightSelectionBench()
         Array<int> this_myarray = m_myarray;
         
         time_point begin = std::chrono::high_resolution_clock::now();
-        StraightSelectionC(array);
+        StraightSelection(array);
         time_point end = std::chrono::high_resolution_clock::now();
         carray_average += std::chrono::duration_cast<std::chrono::nanoseconds>(end-begin).count();
         
@@ -312,7 +255,7 @@ void Sorts::StraightSelectionBench()
         c_at_500 = array[500];
         m_at_500 = this_myarray[500];
     }   //end for loop
-    std::cout<<"-------STRAIGHT SELECTION--------"<<"[500] = "<<c_at_500<<" "<< v_at_500 <<" "<<m_at_500<<std::endl;
+    std::cout<<"\n-------STRAIGHT SELECTION--------"<<"[500] = "<<c_at_500<<" "<< v_at_500 <<" "<<m_at_500<<std::endl;
     std::cout<<"C Array average for "<<m_interations<<" iteration(s): "<<(carray_average/m_interations)/1000<< " us";
     std::cout<<"\nVector average for "<<m_interations<<" iteration(s): "<<(vector_average/m_interations)/1000<< " us";
     std::cout<<"\nmyarray average for "<<m_interations<<" iteration(s): "<<(myarray_average/m_interations)/1000<< " us"<<std::endl;
@@ -341,28 +284,6 @@ void Sorts::LinearInsertion(T & array)
     
 }
 
-template <typename T>
-void Sorts::LinearInsertionC(T array)
-{
-    for (int i = 0; i<m_size-1; i++)
-    {
-        int minimum = i;
-        for (int ii = minimum+1; ii<m_size; ii++)
-        {
-            if(array[ii] < array[minimum])
-            {
-                minimum = ii;
-            }
-        }
-        if(minimum != i)
-        {
-            int swap = array[i];
-            array[i] = array[minimum];
-            array[minimum] = swap;
-        }
-    }
-    
-}
 
 void Sorts::LinearInsertionBench()
 {
@@ -373,7 +294,7 @@ void Sorts::LinearInsertionBench()
     for (int num_iter = 0; num_iter<m_interations; num_iter++)
     {
         /*   =======   Create array copies ======  */
-        int array[m_size];
+        int * array = new int[m_size];
         for (int i = 0; i<m_size; i++)
         {
             array[i] = m_array[i];
@@ -382,7 +303,7 @@ void Sorts::LinearInsertionBench()
         Array<int> this_myarray = m_myarray;
         
         time_point begin = std::chrono::high_resolution_clock::now();
-        LinearInsertionC(array);
+        LinearInsertion(array);
         time_point end = std::chrono::high_resolution_clock::now();
         carray_average += std::chrono::duration_cast<std::chrono::nanoseconds>(end-begin).count();
         
@@ -401,38 +322,12 @@ void Sorts::LinearInsertionBench()
         c_at_500 = array[500];
         m_at_500 = this_myarray[500];
     }   //end for loop
-    std::cout<<"-------LINEAR INSERTION--------"<<"[500] = "<<c_at_500<<" "<< v_at_500 <<" "<<m_at_500<<std::endl;
+    std::cout<<"\n-------LINEAR INSERTION--------"<<"[500] = "<<c_at_500<<" "<< v_at_500 <<" "<<m_at_500<<std::endl;
     std::cout<<"C Array average for "<<m_interations<<" iteration(s): "<<(carray_average/m_interations)/1000<< " us";
     std::cout<<"\nVector average for "<<m_interations<<" iteration(s): "<<(vector_average/m_interations)/1000<< " us";
     std::cout<<"\nmyarray average for "<<m_interations<<" iteration(s): "<<(myarray_average/m_interations)/1000<< " us"<<std::endl;
 }
 
-template <typename T>
-void Sorts::ShellSortC(T array)
-{
-    int h = 0;
-    int i = 0;
-    int sorts[100];
-    for(i = 0; h<m_size;i++)
-    {
-        h = 3*h+1;
-        sorts[i] = h;
-    }
-    for(int ii = i-1; ii>=0; ii--)
-    {
-        int gap = sorts[ii];
-        for (int k = gap; k < m_size; k++)
-        {
-            int temp = array[k];
-            int j;
-            for (j = k; j >= gap && array[j - gap] > temp; j -= gap)
-            {
-                array[j] = array[j - gap];
-            }
-            array[j] = temp;
-        }
-    }
-}
 
 template <typename T>
 void Sorts::ShellSort(T & array)
@@ -470,7 +365,7 @@ void Sorts::ShellSortBench()
     for (int num_iter = 0; num_iter<m_interations; num_iter++)
     {
         /*   =======   Create array copies ======  */
-        int array[m_size];
+        int * array = new int[m_size];
         for (int i = 0; i<m_size; i++)
         {
             array[i] = m_array[i];
@@ -479,7 +374,7 @@ void Sorts::ShellSortBench()
         Array<int> this_myarray = m_myarray;
         
         time_point begin = std::chrono::high_resolution_clock::now();
-        ShellSortC(array);
+        ShellSort(array);
         time_point end = std::chrono::high_resolution_clock::now();
         carray_average += std::chrono::duration_cast<std::chrono::nanoseconds>(end-begin).count();
         
@@ -498,7 +393,7 @@ void Sorts::ShellSortBench()
         c_at_500 = array[500];
         m_at_500 = this_myarray[500];
     }   //end for loop
-    std::cout<<"-------SHELL SORT--------"<<"[500] = "<<c_at_500<<" "<< v_at_500 <<" "<<m_at_500<<std::endl;
+    std::cout<<"\n-------SHELL SORT--------"<<"[500] = "<<c_at_500<<" "<< v_at_500 <<" "<<m_at_500<<std::endl;
     std::cout<<"C Array average for "<<m_interations<<" iteration(s): "<<(carray_average/m_interations)/1000<< " us";
     std::cout<<"\nVector average for "<<m_interations<<" iteration(s): "<<(vector_average/m_interations)/1000<< " us";
     std::cout<<"\nmyarray average for "<<m_interations<<" iteration(s): "<<(myarray_average/m_interations)/1000<< " us"<<std::endl;
@@ -517,19 +412,20 @@ void Sorts::HeapSort(T & array)
     }
 }
 
+
 template <typename T>
-void Sorts::Heapify(T array, int i, int size)
+void Sorts::Heapify(T & array, int i, int size)
 {
     int left = 2*i;
     int right = 2*i+1;
     int max;
-    if (left <= size && array[left] > array[i])
+    if (left < size && array[left] > array[i])
         max = left;
     else
     {
         max = i;
     }
-    if (right <= size && array[right] > array[max])
+    if (right < size && array[right] > array[max])
         max = right;
         
     if (max != i)
@@ -542,8 +438,10 @@ void Sorts::Heapify(T array, int i, int size)
         
 }
 
+
+
 template <typename T>
-void Sorts::BuildHeap(T array)
+void Sorts::BuildHeap(T & array)
 {
     for (int i = m_size/2; i>=0; i--)
     {
@@ -552,6 +450,193 @@ void Sorts::BuildHeap(T array)
     
 }
 
+
+void Sorts::HeapSortBench()
+{
+    double carray_average = 0;
+    double vector_average = 0;
+    double myarray_average = 0;
+    int v_at_500, c_at_500, m_at_500;
+    for (int num_iter = 0; num_iter<m_interations; num_iter++)
+    {
+        /*   =======   Create array copies ======  */
+        int * array = new int[m_size];
+        for (int i = 0; i<m_size; i++)
+        {
+            array[i] = m_array[i];
+        }
+        std::vector<int> this_vector = m_vector;
+        Array<int> this_myarray = m_myarray;
+        
+        time_point begin = std::chrono::high_resolution_clock::now();
+        HeapSort(array);
+        time_point end = std::chrono::high_resolution_clock::now();
+        carray_average += std::chrono::duration_cast<std::chrono::nanoseconds>(end-begin).count();
+        
+        begin = std::chrono::high_resolution_clock::now();
+        HeapSort(this_vector);
+        end = std::chrono::high_resolution_clock::now();
+        vector_average += std::chrono::duration_cast<std::chrono::nanoseconds>(end-begin).count();
+        
+        begin = std::chrono::high_resolution_clock::now();
+        HeapSort(this_myarray);
+        end = std::chrono::high_resolution_clock::now();
+        myarray_average += std::chrono::duration_cast<std::chrono::nanoseconds>(end-begin).count();
+        
+        
+        v_at_500 = this_vector[500];
+        c_at_500 = array[500];
+        m_at_500 = this_myarray[500];
+    }   //end for loop
+    std::cout<<"\n-------HEAP SORT--------"<<"[500] = "<<c_at_500<<" "<< v_at_500 <<" "<<m_at_500<<std::endl;
+    std::cout<<"C Array average for "<<m_interations<<" iteration(s): "<<(carray_average/m_interations)/1000<< " us";
+    std::cout<<"\nVector average for "<<m_interations<<" iteration(s): "<<(vector_average/m_interations)/1000<< " us";
+    std::cout<<"\nmyarray average for "<<m_interations<<" iteration(s): "<<(myarray_average/m_interations)/1000<< " us"<<std::endl;
+}
+
+void Sorts::MergeSortBench()
+{
+    double carray_average = 0;
+    double vector_average = 0;
+    double myarray_average = 0;
+    int v_at_500, c_at_500, m_at_500;
+    for (int num_iter = 0; num_iter<m_interations; num_iter++)
+    {
+        /*   =======   Create array copies ======  */
+        int * array = new int[m_size];
+        for (int i = 0; i<m_size; i++)
+        {
+            array[i] = m_array[i];
+        }
+        std::vector<int> this_vector = m_vector;
+        Array<int> this_myarray = m_myarray;
+        
+        time_point begin = std::chrono::high_resolution_clock::now();
+        MergeSort(array);
+        time_point end = std::chrono::high_resolution_clock::now();
+        carray_average += std::chrono::duration_cast<std::chrono::nanoseconds>(end-begin).count();
+        
+        begin = std::chrono::high_resolution_clock::now();
+        MergeSort(this_vector);
+        end = std::chrono::high_resolution_clock::now();
+        vector_average += std::chrono::duration_cast<std::chrono::nanoseconds>(end-begin).count();
+        
+        begin = std::chrono::high_resolution_clock::now();
+        MergeSort(this_myarray);
+        end = std::chrono::high_resolution_clock::now();
+        myarray_average += std::chrono::duration_cast<std::chrono::nanoseconds>(end-begin).count();
+        
+        
+        v_at_500 = this_vector[500];
+        c_at_500 = array[500];
+        m_at_500 = this_myarray[500];
+    }   //end for loop
+    std::cout<<"\n-------MERGE SORT--------"<<"[500] = "<<c_at_500<<" "<< v_at_500 <<" "<<m_at_500<<std::endl;
+    std::cout<<"C Array average for "<<m_interations<<" iteration(s): "<<(carray_average/m_interations)/1000<< " us";
+    std::cout<<"\nVector average for "<<m_interations<<" iteration(s): "<<(vector_average/m_interations)/1000<< " us";
+    std::cout<<"\nmyarray average for "<<m_interations<<" iteration(s): "<<(myarray_average/m_interations)/1000<< " us"<<std::endl;
+}
+
+template <typename T>
+void Sorts::MergeSort(T & array)
+{
+    int * temp = new int[m_size];
+    
+    MergeSort(array, temp, 0, m_size);
+    
+    
+}
+
+template <typename T>
+void Sorts::MergeSort(T & array, int * temp, int left, int right)
+{
+
+    if(right-left < 2)
+    {
+        
+    }
+    else
+    {
+        int mid = (left + right) /2;
+        MergeSort(array, temp, left, mid);
+        MergeSort(array, temp, mid, right);
+        Merge(array, temp, left, mid, right);
+    }
+}
+
+template <typename T>
+void Sorts::Merge(T & array, int * temp, int left, int right, int re)
+{
+    int beg = left;
+    int mid = right;
+
+    for (int i = left; i<re; i++)
+    {
+        if (beg<right && (mid >= re || array[beg] <= array[mid]))
+        {
+            temp[i] = array[beg];
+            beg++;
+        }
+        else
+        {
+            temp[i] = array[mid];
+            mid++;
+        }
+    }
+    for(int i = left; i < re; i++)
+        array[i] = temp[i];
+}
+
+void Sorts::QuickSortBench()
+{
+    int * array = new int[m_size];
+    for (int i = 0; i<m_size; i++)
+    {
+        array[i] = m_array[i];
+    }
+    QuickSort(array);
+    for (int i = 0; i<m_size; i++)
+    {
+        std::cout<<array[i]<<std::endl;
+    }
+
+    
+}
+
+template <typename T>
+void Sorts::QuickSort(T & array)
+{
+    QuickSort(array, 1, m_size);
+}
+
+template <typename T>
+void Sorts::QuickSort(T &array, int lo, int hi)
+{
+    if(lo < hi)
+    {
+        int pivot = array[hi];
+        int i = lo;
+        for(int j = lo; j<hi-1; j++)
+        {
+           if(array[j] <= pivot)
+           {
+               int hold = array[i];
+               array[i] = array[j];
+               array[j] = hold;
+               i++;
+           }
+        }
+        int hold = array[hi];
+        array[hi] = array[i];
+        array[i] = hold;
+        
+        QuickSort(array, lo, i-1);
+        
+        QuickSort(array, i+1, hi);
+        
+    }
+    
+}
 
 
 
