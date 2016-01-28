@@ -57,7 +57,8 @@ public:
     void MergeSortBench();
     void QuickSortBench();
     
-    bool SortedCorrectly();
+    template <typename T>
+    bool SortedCorrectly(T & array);
 private:
     template <typename T>
     void BuildHeap(T&);
@@ -73,7 +74,9 @@ private:
     template <typename T>
     void Merge(T & array, int * temp, int left, int right, int right_end);
     
-    void Display(int array);
+    template <typename T>
+    void Display(T & array);
+    
     void Shuffle();
     void Init();
     

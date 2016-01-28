@@ -44,29 +44,13 @@ void Sorts::Shuffle()
     }
 }
 
-void Sorts::Display(int array)
+template <typename T>
+void Sorts::Display(T & array)
 {
-    switch (array)
+    for (int i = 0; i<m_size; i++)
     {
-        case 1:
-            m_outfile<<"c_array"<<std::endl;
-            for (int i = 0; i<m_size; i++)
-            {
-                m_outfile<<m_array[i]<<", ";
-            }
-            break;
-        case 2:
-            m_outfile<<"Vector"<<std::endl;
-            for (int i = 0; i<m_size; i++)
-            {
-                m_outfile<<m_vector[i]<<", ";
-            }
-            break;
-        default:
-            break;
+        std::cout<<array[i]<<std::endl;
     }
-        m_outfile<<std::endl;
-    
 }
 
 
@@ -90,10 +74,13 @@ void Sorts::BubbleSort(T & array)
 
 void Sorts::BubbleSortBench()
 {
+    std::cout<<"\n-------BRUTEFORCE BUBBLESORT--------";
     double carray_average = 0;
     double vector_average = 0;
     double myarray_average = 0;
     int v_at_500, c_at_500, m_at_500;
+    bool csc, vsc, msc;
+    bool all_correct = true;
     for (int num_iter = 0; num_iter<m_interations; num_iter++)
     {
         /*   =======   Create array copies ======  */
@@ -123,8 +110,21 @@ void Sorts::BubbleSortBench()
         v_at_500 = this_vector[500];
         c_at_500 = array[500];
         m_at_500 = this_myarray[500];
+        csc = SortedCorrectly(array);
+        vsc = SortedCorrectly(array);
+        msc = SortedCorrectly(array);
+        if(csc && vsc && msc)
+            std::cout<<".";
+        else{
+            std::cout<<"!";
+            all_correct = false;
+        }
     }   //end for loop
-    std::cout<<"\n-------BRUTEFORCE BUBBLESORT--------"<<"[500] = "<<c_at_500<<" "<< v_at_500 <<" "<<m_at_500<<std::endl;
+    if(all_correct)
+        std::cout<<"\nAll sorts completed correctly!\n";
+    else
+        std::cout<<"Sort errors detected.\n";
+    std::cout<<"[500] = "<<c_at_500<<" "<< v_at_500 <<" "<<m_at_500<<std::endl;
     std::cout<<"C Array average for "<<m_interations<<" iteration(s): "<<(carray_average/m_interations)/1000<< " us";
     std::cout<<"\nVector average for "<<m_interations<<" iteration(s): "<<(vector_average/m_interations)/1000<< " us";
     std::cout<<"\nmyarray average for "<<m_interations<<" iteration(s): "<<(myarray_average/m_interations)/1000<< " us"<<std::endl;
@@ -153,10 +153,13 @@ void Sorts::FlaggedBubble(T & array)
 
 void Sorts::FlaggedBubbleBench()
 {
+    std::cout<<"\n-------FLAGGED BUBBLESORT--------";
     double carray_average = 0;
     double vector_average = 0;
     double myarray_average = 0;
     int v_at_500, c_at_500, m_at_500;
+    bool csc, vsc, msc;
+    bool all_correct = true;
     for (int num_iter = 0; num_iter<m_interations; num_iter++)
     {
         /*   =======   Create array copies ======  */
@@ -187,8 +190,21 @@ void Sorts::FlaggedBubbleBench()
         v_at_500 = this_vector[500];
         c_at_500 = array[500];
         m_at_500 = this_myarray[500];
+        csc = SortedCorrectly(array);
+        vsc = SortedCorrectly(array);
+        msc = SortedCorrectly(array);
+        if(csc && vsc && msc)
+            std::cout<<".";
+        else{
+            std::cout<<"!";
+            all_correct = false;
+        }
     }   //end for loop
-    std::cout<<"\n-------FLAGGED BUBBLESORT--------"<<"[500] = "<<c_at_500<<" "<< v_at_500 <<" "<<m_at_500<<std::endl;
+    if(all_correct)
+        std::cout<<"\nAll sorts completed correctly!\n";
+    else
+        std::cout<<"Sort errors detected.\n";
+    std::cout<<"[500] = "<<c_at_500<<" "<< v_at_500 <<" "<<m_at_500<<std::endl;
     std::cout<<"C Array average for "<<m_interations<<" iteration(s): "<<(carray_average/m_interations)/1000<< " us";
     std::cout<<"\nVector average for "<<m_interations<<" iteration(s): "<<(vector_average/m_interations)/1000<< " us";
     std::cout<<"\nmyarray average for "<<m_interations<<" iteration(s): "<<(myarray_average/m_interations)/1000<< " us"<<std::endl;
@@ -220,10 +236,13 @@ void Sorts::StraightSelection(T & array)
 
 void Sorts::StraightSelectionBench()
 {
+    std::cout<<"\n-------STRAIGHT SELECTION--------";
     double carray_average = 0;
     double vector_average = 0;
     double myarray_average = 0;
     int v_at_500, c_at_500, m_at_500;
+    bool csc, vsc, msc;
+    bool all_correct = true;
     for (int num_iter = 0; num_iter<m_interations; num_iter++)
     {
         /*   =======   Create array copies ======  */
@@ -254,8 +273,21 @@ void Sorts::StraightSelectionBench()
         v_at_500 = this_vector[500];
         c_at_500 = array[500];
         m_at_500 = this_myarray[500];
+        csc = SortedCorrectly(array);
+        vsc = SortedCorrectly(array);
+        msc = SortedCorrectly(array);
+        if(csc && vsc && msc)
+            std::cout<<".";
+        else{
+            std::cout<<"!";
+            all_correct = false;
+        }
     }   //end for loop
-    std::cout<<"\n-------STRAIGHT SELECTION--------"<<"[500] = "<<c_at_500<<" "<< v_at_500 <<" "<<m_at_500<<std::endl;
+    if(all_correct)
+        std::cout<<"\nAll sorts completed correctly!\n";
+    else
+        std::cout<<"Sort errors detected.\n";
+    std::cout<<"[500] = "<<c_at_500<<" "<< v_at_500 <<" "<<m_at_500<<std::endl;
     std::cout<<"C Array average for "<<m_interations<<" iteration(s): "<<(carray_average/m_interations)/1000<< " us";
     std::cout<<"\nVector average for "<<m_interations<<" iteration(s): "<<(vector_average/m_interations)/1000<< " us";
     std::cout<<"\nmyarray average for "<<m_interations<<" iteration(s): "<<(myarray_average/m_interations)/1000<< " us"<<std::endl;
@@ -287,10 +319,13 @@ void Sorts::LinearInsertion(T & array)
 
 void Sorts::LinearInsertionBench()
 {
+    std::cout<<"\n-------LINEAR INSERTION--------";
     double carray_average = 0;
     double vector_average = 0;
     double myarray_average = 0;
     int v_at_500, c_at_500, m_at_500;
+    bool csc, vsc, msc;
+    bool all_correct = true;
     for (int num_iter = 0; num_iter<m_interations; num_iter++)
     {
         /*   =======   Create array copies ======  */
@@ -321,8 +356,21 @@ void Sorts::LinearInsertionBench()
         v_at_500 = this_vector[500];
         c_at_500 = array[500];
         m_at_500 = this_myarray[500];
+        csc = SortedCorrectly(array);
+        vsc = SortedCorrectly(array);
+        msc = SortedCorrectly(array);
+        if(csc && vsc && msc)
+            std::cout<<".";
+        else{
+            std::cout<<"!";
+            all_correct = false;
+        }
     }   //end for loop
-    std::cout<<"\n-------LINEAR INSERTION--------"<<"[500] = "<<c_at_500<<" "<< v_at_500 <<" "<<m_at_500<<std::endl;
+    if(all_correct)
+        std::cout<<"\nAll sorts completed correctly!\n";
+    else
+        std::cout<<"Sort errors detected.\n";
+    std::cout<<"[500] = "<<c_at_500<<" "<< v_at_500 <<" "<<m_at_500<<std::endl;
     std::cout<<"C Array average for "<<m_interations<<" iteration(s): "<<(carray_average/m_interations)/1000<< " us";
     std::cout<<"\nVector average for "<<m_interations<<" iteration(s): "<<(vector_average/m_interations)/1000<< " us";
     std::cout<<"\nmyarray average for "<<m_interations<<" iteration(s): "<<(myarray_average/m_interations)/1000<< " us"<<std::endl;
@@ -358,10 +406,13 @@ void Sorts::ShellSort(T & array)
 
 void Sorts::ShellSortBench()
 {
+    std::cout<<"\n-------SHELL SORT--------";
     double carray_average = 0;
     double vector_average = 0;
     double myarray_average = 0;
     int v_at_500, c_at_500, m_at_500;
+    bool csc, vsc, msc;
+    bool all_correct = true;
     for (int num_iter = 0; num_iter<m_interations; num_iter++)
     {
         /*   =======   Create array copies ======  */
@@ -392,8 +443,21 @@ void Sorts::ShellSortBench()
         v_at_500 = this_vector[500];
         c_at_500 = array[500];
         m_at_500 = this_myarray[500];
+        csc = SortedCorrectly(array);
+        vsc = SortedCorrectly(array);
+        msc = SortedCorrectly(array);
+        if(csc && vsc && msc)
+            std::cout<<".";
+        else{
+            std::cout<<"!";
+            all_correct = false;
+        }
     }   //end for loop
-    std::cout<<"\n-------SHELL SORT--------"<<"[500] = "<<c_at_500<<" "<< v_at_500 <<" "<<m_at_500<<std::endl;
+    if(all_correct)
+        std::cout<<"\nAll sorts completed correctly!\n";
+    else
+        std::cout<<"Sort errors detected.\n";
+    std::cout<<"[500] = "<<c_at_500<<" "<< v_at_500 <<" "<<m_at_500<<std::endl;
     std::cout<<"C Array average for "<<m_interations<<" iteration(s): "<<(carray_average/m_interations)/1000<< " us";
     std::cout<<"\nVector average for "<<m_interations<<" iteration(s): "<<(vector_average/m_interations)/1000<< " us";
     std::cout<<"\nmyarray average for "<<m_interations<<" iteration(s): "<<(myarray_average/m_interations)/1000<< " us"<<std::endl;
@@ -408,7 +472,7 @@ void Sorts::HeapSort(T & array)
         int swap = array[0];
         array[0] = array[i];
         array[i] = swap;
-        Heapify(array, 0, i-1);
+        Heapify(array, 0, i);
     }
 }
 
@@ -453,10 +517,13 @@ void Sorts::BuildHeap(T & array)
 
 void Sorts::HeapSortBench()
 {
+    std::cout<<"\n-------HEAP SORT--------";
     double carray_average = 0;
     double vector_average = 0;
     double myarray_average = 0;
     int v_at_500, c_at_500, m_at_500;
+    bool csc, vsc, msc;
+    bool all_correct = true;
     for (int num_iter = 0; num_iter<m_interations; num_iter++)
     {
         /*   =======   Create array copies ======  */
@@ -471,6 +538,7 @@ void Sorts::HeapSortBench()
         time_point begin = std::chrono::high_resolution_clock::now();
         HeapSort(array);
         time_point end = std::chrono::high_resolution_clock::now();
+        //Display(array);
         carray_average += std::chrono::duration_cast<std::chrono::nanoseconds>(end-begin).count();
         
         begin = std::chrono::high_resolution_clock::now();
@@ -487,8 +555,21 @@ void Sorts::HeapSortBench()
         v_at_500 = this_vector[500];
         c_at_500 = array[500];
         m_at_500 = this_myarray[500];
+        csc = SortedCorrectly(array);
+        vsc = SortedCorrectly(array);
+        msc = SortedCorrectly(array);
+        if(csc && vsc && msc)
+            std::cout<<".";
+        else{
+            std::cout<<"!";
+            all_correct = false;
+        }
     }   //end for loop
-    std::cout<<"\n-------HEAP SORT--------"<<"[500] = "<<c_at_500<<" "<< v_at_500 <<" "<<m_at_500<<std::endl;
+    if(all_correct)
+        std::cout<<"\nAll sorts completed correctly!\n";
+    else
+        std::cout<<"Sort errors detected.\n";
+    std::cout<<"[500] = "<<c_at_500<<" "<< v_at_500 <<" "<<m_at_500<<std::endl;
     std::cout<<"C Array average for "<<m_interations<<" iteration(s): "<<(carray_average/m_interations)/1000<< " us";
     std::cout<<"\nVector average for "<<m_interations<<" iteration(s): "<<(vector_average/m_interations)/1000<< " us";
     std::cout<<"\nmyarray average for "<<m_interations<<" iteration(s): "<<(myarray_average/m_interations)/1000<< " us"<<std::endl;
@@ -496,10 +577,13 @@ void Sorts::HeapSortBench()
 
 void Sorts::MergeSortBench()
 {
+    std::cout<<"\n-------MERGE SORT--------";
     double carray_average = 0;
     double vector_average = 0;
     double myarray_average = 0;
     int v_at_500, c_at_500, m_at_500;
+    bool csc, vsc, msc;
+    bool all_correct = true;
     for (int num_iter = 0; num_iter<m_interations; num_iter++)
     {
         /*   =======   Create array copies ======  */
@@ -530,8 +614,21 @@ void Sorts::MergeSortBench()
         v_at_500 = this_vector[500];
         c_at_500 = array[500];
         m_at_500 = this_myarray[500];
+        csc = SortedCorrectly(array);
+        vsc = SortedCorrectly(array);
+        msc = SortedCorrectly(array);
+        if(csc && vsc && msc)
+            std::cout<<".";
+        else{
+            std::cout<<"!";
+            all_correct = false;
+        }
     }   //end for loop
-    std::cout<<"\n-------MERGE SORT--------"<<"[500] = "<<c_at_500<<" "<< v_at_500 <<" "<<m_at_500<<std::endl;
+    if(all_correct)
+        std::cout<<"\nAll sorts completed correctly!\n";
+    else
+        std::cout<<"Sort errors detected.\n";
+    std::cout<<"[500] = "<<c_at_500<<" "<< v_at_500 <<" "<<m_at_500<<std::endl;
     std::cout<<"C Array average for "<<m_interations<<" iteration(s): "<<(carray_average/m_interations)/1000<< " us";
     std::cout<<"\nVector average for "<<m_interations<<" iteration(s): "<<(vector_average/m_interations)/1000<< " us";
     std::cout<<"\nmyarray average for "<<m_interations<<" iteration(s): "<<(myarray_average/m_interations)/1000<< " us"<<std::endl;
@@ -589,24 +686,67 @@ void Sorts::Merge(T & array, int * temp, int left, int right, int re)
 
 void Sorts::QuickSortBench()
 {
-    int * array = new int[m_size];
-    for (int i = 0; i<m_size; i++)
+    std::cout<<"\n-------QUICK SORT--------";
+    double carray_average = 0;
+    double vector_average = 0;
+    double myarray_average = 0;
+    int v_at_500, c_at_500, m_at_500;
+    bool csc, vsc, msc;                 //used to check if arrays are sorted correctly
+    bool all_correct = true;
+    for (int num_iter = 0; num_iter<m_interations; num_iter++)
     {
-        array[i] = m_array[i];
-    }
-    QuickSort(array);
-    for (int i = 0; i<m_size; i++)
-    {
-        std::cout<<array[i]<<std::endl;
-    }
-
-    
+        /*   =======   Create array copies ======  */
+        int * array = new int[m_size];
+        for (int i = 0; i<m_size; i++)
+        {
+            array[i] = m_array[i];
+        }
+        std::vector<int> this_vector = m_vector;
+        Array<int> this_myarray = m_myarray;
+        
+        time_point begin = std::chrono::high_resolution_clock::now();
+        QuickSort(array);
+        time_point end = std::chrono::high_resolution_clock::now();
+        carray_average += std::chrono::duration_cast<std::chrono::nanoseconds>(end-begin).count();
+        
+        begin = std::chrono::high_resolution_clock::now();
+        QuickSort(this_vector);
+        end = std::chrono::high_resolution_clock::now();
+        vector_average += std::chrono::duration_cast<std::chrono::nanoseconds>(end-begin).count();
+        
+        begin = std::chrono::high_resolution_clock::now();
+        QuickSort(this_myarray);
+        end = std::chrono::high_resolution_clock::now();
+        myarray_average += std::chrono::duration_cast<std::chrono::nanoseconds>(end-begin).count();
+        
+        
+        v_at_500 = this_vector[500];
+        c_at_500 = array[500];
+        m_at_500 = this_myarray[500];
+        csc = SortedCorrectly(array);
+        vsc = SortedCorrectly(array);
+        msc = SortedCorrectly(array);
+        if(csc && vsc && msc)
+            std::cout<<".";
+        else{
+            std::cout<<"!";
+            all_correct = false;
+        }
+    }   //end for loop
+    if(all_correct)
+        std::cout<<"\nAll sorts completed correctly!\n";
+    else
+        std::cout<<"Sort errors detected.\n";
+    std::cout<<"[500] = "<<c_at_500<<" "<< v_at_500 <<" "<<m_at_500<<std::endl;
+    std::cout<<"C Array average for "<<m_interations<<" iteration(s): "<<(carray_average/m_interations)/1000<< " us ";
+    std::cout<<"\nVector average for "<<m_interations<<" iteration(s): "<<(vector_average/m_interations)/1000<< " us";
+    std::cout<<"\nmyarray average for "<<m_interations<<" iteration(s): "<<(myarray_average/m_interations)/1000<< " us"<<std::endl;
 }
 
 template <typename T>
 void Sorts::QuickSort(T & array)
 {
-    QuickSort(array, 1, m_size);
+    QuickSort(array, 0, m_size-1);
 }
 
 template <typename T>
@@ -616,7 +756,7 @@ void Sorts::QuickSort(T &array, int lo, int hi)
     {
         int pivot = array[hi];
         int i = lo;
-        for(int j = lo; j<hi-1; j++)
+        for(int j = lo; j<hi; j++)
         {
            if(array[j] <= pivot)
            {
@@ -631,13 +771,30 @@ void Sorts::QuickSort(T &array, int lo, int hi)
         array[i] = hold;
         
         QuickSort(array, lo, i-1);
-        
         QuickSort(array, i+1, hi);
         
     }
     
 }
 
+template <typename T>
+bool Sorts::SortedCorrectly(T & array)
+{
+    bool sorted_correctly = true;
+    int largest = array[0];
+    for (int i = 0; i<m_size && sorted_correctly; i++)
+    {
+        if(array[i] < largest)
+        {
+            sorted_correctly = false;
+        }
+        else
+        {
+            largest = array[i];
+        }
+    }
+    return sorted_correctly;
+}
 
 
 
