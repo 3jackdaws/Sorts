@@ -1,35 +1,129 @@
-//
-//  Sorts.cpp
-//  Sorts
-//
-//  Created by Ian Murphy on 1/22/16.
-//  Copyright © 2016 Ian Murphy. All rights reserved.
-//
+/*************************************************************
+* Author:		Ian Murphy
+* Filename:		Sorts.cpp
+* Date Created:	1/25ish/2016
+* Modifications:	Check github
+**************************************************************/
+
 
 #include "Sorts.hpp"
-Sorts::Sorts(int size, int iterations) : m_size(size), m_interations(iterations), m_outfile(std::ofstream("outfile.txt"))
+
+/**********************************************************************
+* Purpose: This is a ctor.
+*
+* Precondition:
+*     None
+*
+* Postcondition:
+*      initializes m_size and and m_interations which is spelled wrong
+*
+************************************************************************/
+Sorts::Sorts(int size, int iterations) : m_size(size), m_interations(iterations), m_outfile(std::ofstream("output.txt"))
 {
-//    m_outfile = std::ofstream("output.txt");
+
     m_array = new int[size];
     Init();
     Shuffle();
     m_outfile<<"Sorting "<<m_size<<" elements."<<std::endl;
 }
 
+/**********************************************************************
+* Purpose: This is a dtor.
+*
+* Precondition:
+*     object must exist
+*
+* Postcondition:
+*      deletes the new'd m_array and closes the output file
+*
+************************************************************************/
 Sorts::~Sorts()
 {
     m_outfile.close();
     delete [] m_array;
 }
 
+/**********************************************************************
+* Purpose: This is a copy ctor.
+*
+* Precondition:
+*     passed Sorts object must be an instance
+*
+* Postcondition:
+*      creates an identical copy of the passed sorts object
+*
+************************************************************************/
+Sorts::Sorts(const Sorts & cp)
+{
+	m_size = cp.m_size;
+	m_interations = cp.m_interations;
+	m_array = new int[m_size];
+	for (int i = 0; i < m_size; i++)
+	{
+		m_array[i] = cp.m_array[i];
+	}
+	m_vector = cp.m_vector;
+	m_myarray = cp.m_myarray;
+}
+
+/**********************************************************************
+* Purpose: op = override, allows the copying of a Sorts object if both participants are both instances already.
+*
+* Precondition:
+*     both participants are both instances already.
+*
+* Postcondition:
+*      two objects are now equal to each other
+*
+************************************************************************/
+Sorts & Sorts::operator=(const Sorts & rhs)
+{
+	if (this != &rhs)
+	{
+		m_size = rhs.m_size;
+		m_interations = rhs.m_interations;
+		delete[] m_array;
+		m_array = new int[m_size];
+		for (int i = 0; i < m_size; i++)
+		{
+			m_array[i] = rhs.m_array[i];
+		}
+		m_vector = rhs.m_vector;
+		m_myarray = rhs.m_myarray;
+	}
+	return *this;
+}
+
+/**********************************************************************
+* Purpose: Fills m_array with a series of numbers up to the m_size.
+*
+* Precondition:
+*     only obvious stuff.
+*
+* Postcondition:
+*      m_array is filled with a series of numbers that is easy to see if sorted
+*
+************************************************************************/
 void Sorts::Init()
 {
     for (int i = 0; i<m_size; i++)
     {
         m_array[i] = i+100;
+		if (i < 100 && i>90)
+			m_array[i] = 95;
     }
 }
 
+/**********************************************************************
+* Purpose: Shuffles up the c array and copies the values over to the vector and the Array class.
+*
+* Precondition:
+*     Array must g=have values in it
+*
+* Postcondition:
+*      all three data structutres have the same random data in them
+*
+************************************************************************/
 void Sorts::Shuffle()
 {
     srand(time(nullptr));
@@ -51,6 +145,16 @@ void Sorts::Shuffle()
     }
 }
 
+/**********************************************************************
+* Purpose: Displays the contents of the passed array
+*
+* Precondition:
+*     array should be of size m_size
+*
+* Postcondition:
+*      the contents of the data structure is printed to the console
+*
+************************************************************************/
 template <typename T>
 void Sorts::Display(T & array)
 {
@@ -60,7 +164,16 @@ void Sorts::Display(T & array)
     }
 }
 
-
+/**********************************************************************
+* Purpose: Implements the bubble sort alogrithm
+*
+* Precondition:
+*     Passed data structure should have m_size elements
+*
+* Postcondition:
+*      the passed data structure contains elements sorted in ascending order
+*
+************************************************************************/
 template <typename T>
 void Sorts::BubbleSort(T & array)
 {
@@ -78,7 +191,16 @@ void Sorts::BubbleSort(T & array)
     }
 }
 
-
+/**********************************************************************
+* Purpose: Times the execution of the bubble sort method on all three internal data structures
+*
+* Precondition:
+*     All internal data structures have data in them
+*
+* Postcondition:
+*      the time of execution is printed to console and written to the output file
+*
+************************************************************************/
 void Sorts::BubbleSortBench()
 {
     m_outfile<<"\n-------BRUTEFORCE BUBBLESORT--------\n";
@@ -140,7 +262,16 @@ void Sorts::BubbleSortBench()
     cout<<"\nmyarray average for "<<m_interations<<" iteration(s): "<<(myarray_average/m_interations)/1000<< " us"<<std::endl;
 }
 
-
+/**********************************************************************
+* Purpose: Implements the flagged bubble sort alogrithm
+*
+* Precondition:
+*     Passed data structure should have m_size elements
+*
+* Postcondition:
+*      the passed data structure contains elements sorted in ascending order
+*
+************************************************************************/
 template <typename T>
 void Sorts::FlaggedBubble(T & array)
 {
@@ -161,6 +292,16 @@ void Sorts::FlaggedBubble(T & array)
     }
 }
 
+/**********************************************************************
+* Purpose: Times the execution of the flagged bubble sort method on all three internal data structures
+*
+* Precondition:
+*     All internal data structures have data in them
+*
+* Postcondition:
+*      the time of execution is printed to console and written to the output file
+*
+************************************************************************/
 void Sorts::FlaggedBubbleBench()
 {
     m_outfile<<"\n-------FLAGGED BUBBLESORT--------\n";
@@ -223,7 +364,16 @@ void Sorts::FlaggedBubbleBench()
     cout<<"\nmyarray average for "<<m_interations<<" iteration(s): "<<(myarray_average/m_interations)/1000<< " us"<<std::endl;
 }
 
-
+/**********************************************************************
+* Purpose: Implements the straight selection sort alogrithm
+*
+* Precondition:
+*     Passed data structure should have m_size elements
+*
+* Postcondition:
+*      the passed data structure contains elements sorted in ascending order
+*
+************************************************************************/
 template <typename T>
 void Sorts::StraightSelection(T & array)
 {
@@ -247,6 +397,16 @@ void Sorts::StraightSelection(T & array)
     
 }
 
+/**********************************************************************
+* Purpose: Times the execution of the straight selection sort method on all three internal data structures
+*
+* Precondition:
+*     All internal data structures have data in them
+*
+* Postcondition:
+*      the time of execution is printed to console and written to the output file
+*
+************************************************************************/
 void Sorts::StraightSelectionBench()
 {
     m_outfile<<"\n-------STRAIGHT SELECTION--------\n";
@@ -309,6 +469,16 @@ void Sorts::StraightSelectionBench()
     cout<<"\nmyarray average for "<<m_interations<<" iteration(s): "<<(myarray_average/m_interations)/1000<< " us"<<std::endl;
 }
 
+/**********************************************************************
+* Purpose: Implements the linear insertion sort alogrithm
+*
+* Precondition:
+*     Passed data structure should have m_size elements
+*
+* Postcondition:
+*      the passed data structure contains elements sorted in ascending order
+*
+************************************************************************/
 template <typename T>
 void Sorts::LinearInsertion(T & array)
 {
@@ -332,7 +502,16 @@ void Sorts::LinearInsertion(T & array)
     
 }
 
-
+/**********************************************************************
+* Purpose: Times the execution of the linear insertion sort method on all three internal data structures
+*
+* Precondition:
+*     All internal data structures have data in them
+*
+* Postcondition:
+*      the time of execution is printed to console and written to the output file
+*
+************************************************************************/
 void Sorts::LinearInsertionBench()
 {
     m_outfile<<"\n-------LINEAR INSERTION--------\n";
@@ -392,7 +571,16 @@ void Sorts::LinearInsertionBench()
     cout<<"\nmyarray average for "<<m_interations<<" iteration(s): "<<(myarray_average/m_interations)/1000<< " us"<<std::endl;
 }
 
-
+/**********************************************************************
+* Purpose: Implements the shell sort alogrithm
+*
+* Precondition:
+*     Passed data structure should have m_size elements
+*
+* Postcondition:
+*      the passed data structure contains elements sorted in ascending order
+*
+************************************************************************/
 template <typename T>
 void Sorts::ShellSort(T & array)
 {
@@ -420,6 +608,16 @@ void Sorts::ShellSort(T & array)
     }
 }
 
+/**********************************************************************
+* Purpose: Times the execution of the shell sort method on all three internal data structures
+*
+* Precondition:
+*     All internal data structures have data in them
+*
+* Postcondition:
+*      the time of execution is printed to console and written to the output file
+*
+************************************************************************/
 void Sorts::ShellSortBench()
 {
     m_outfile<<"\n-------SHELL SORT--------\n";
@@ -481,6 +679,16 @@ void Sorts::ShellSortBench()
     cout<<"\nmyarray average for "<<m_interations<<" iteration(s): "<<(myarray_average/m_interations)/1000<< " us"<<std::endl;
 }
 
+/**********************************************************************
+* Purpose: Implements the heap sort alogrithm
+*
+* Precondition:
+*     Passed data structure should have m_size elements
+*
+* Postcondition:
+*      the passed data structure contains elements sorted in ascending order
+*
+************************************************************************/
 template <typename T>
 void Sorts::HeapSort(T & array)
 {
@@ -494,7 +702,16 @@ void Sorts::HeapSort(T & array)
     }
 }
 
-
+/**********************************************************************
+* Purpose: Correctly sorts the heap for the Heap sort algoritm
+*
+* Precondition:
+*     i is the beginning of the array and size is the end of the array
+*
+* Postcondition:
+*      correctly heaps the data so that it can be extracted
+*
+************************************************************************/
 template <typename T>
 void Sorts::Heapify(T & array, int i, int size)
 {
@@ -521,7 +738,16 @@ void Sorts::Heapify(T & array, int i, int size)
 }
 
 
-
+/**********************************************************************
+* Purpose: Initially builds the heap for the heap sort algorithm
+*
+* Precondition:
+*     array is of size m_size
+*
+* Postcondition:
+*      array is now correctly heapified
+*
+************************************************************************/
 template <typename T>
 void Sorts::BuildHeap(T & array)
 {
@@ -532,7 +758,16 @@ void Sorts::BuildHeap(T & array)
     
 }
 
-
+/**********************************************************************
+* Purpose: Times the execution of the heap sort method on all three internal data structures
+*
+* Precondition:
+*     All internal data structures have data in them
+*
+* Postcondition:
+*      the time of execution is printed to console and written to the output file
+*
+************************************************************************/
 void Sorts::HeapSortBench()
 {
     m_outfile<<"\n-------HEAP SORT--------\n";
@@ -597,6 +832,16 @@ void Sorts::HeapSortBench()
     cout<<"\nmyarray average for "<<m_interations<<" iteration(s): "<<(myarray_average/m_interations)/1000<< " us"<<std::endl;
 }
 
+/**********************************************************************
+* Purpose: Times the execution of the merge sort method on all three internal data structures
+*
+* Precondition:
+*     All internal data structures have data in them
+*
+* Postcondition:
+*      the time of execution is printed to console and written to the output file
+*
+************************************************************************/
 void Sorts::MergeSortBench()
 {
     m_outfile<<"\n-------MERGE SORT--------\n";
@@ -658,6 +903,16 @@ void Sorts::MergeSortBench()
     cout<<"\nmyarray average for "<<m_interations<<" iteration(s): "<<(myarray_average/m_interations)/1000<< " us"<<std::endl;
 }
 
+/**********************************************************************
+* Purpose: Implements the merge sort alogrithm
+*
+* Precondition:
+*     Passed data structure should have m_size elements
+*
+* Postcondition:
+*      the passed data structure contains elements sorted in ascending order
+*
+************************************************************************/
 template <typename T>
 void Sorts::MergeSort(T & array)
 {
@@ -669,6 +924,16 @@ void Sorts::MergeSort(T & array)
     
 }
 
+/**********************************************************************
+* Purpose: Recursively called to split arrays into sub-arrays
+*
+* Precondition:
+*     right and left define the bounds of the sub array
+*
+* Postcondition:
+*      splits the array into two sub arrays if the array is larger than 2
+*
+************************************************************************/
 template <typename T>
 void Sorts::MergeSort(T & array, int * temp, int left, int right)
 {
@@ -686,6 +951,16 @@ void Sorts::MergeSort(T & array, int * temp, int left, int right)
     }
 }
 
+/**********************************************************************
+* Purpose: Used in the merge sort algorith to merge two arrays together, sorted
+*
+* Precondition:
+*     Passed data structure should be of size re-left
+*
+* Postcondition:
+*      merges the two sub-arrays together so that they are correctly sorted
+*
+************************************************************************/
 template <typename T>
 void Sorts::Merge(T & array, int * temp, int left, int right, int re)
 {
@@ -709,6 +984,16 @@ void Sorts::Merge(T & array, int * temp, int left, int right, int re)
         array[i] = temp[i];
 }
 
+/**********************************************************************
+* Purpose: Times the execution of quick sort method on all three internal data structures
+*
+* Precondition:
+*     All internal data structures have data in them
+*
+* Postcondition:
+*      the time of execution is printed to console and written to the output file
+*
+************************************************************************/
 void Sorts::QuickSortBench()
 {
     m_outfile<<"\n-------QUICK SORT--------\n";
@@ -771,12 +1056,32 @@ void Sorts::QuickSortBench()
     cout<<"\nmyarray average for "<<m_interations<<" iteration(s): "<<(myarray_average/m_interations)/1000<< " us"<<std::endl;
 }
 
+/**********************************************************************
+* Purpose: Used to correctly call the quicksort algorithm
+*
+* Precondition:
+*     Passed data structure should have m_size elements
+*
+* Postcondition:
+*      the passed data structure contains elements sorted in ascending order
+*
+************************************************************************/
 template <typename T>
 void Sorts::QuickSort(T & array)
 {
     QuickSort(array, 0, m_size-1);
 }
 
+/**********************************************************************
+* Purpose: Implements the quick sort alogrithm
+*
+* Precondition:
+*     Passed data structure should have aat least hi-lo elements
+*
+* Postcondition:
+*      the dat structure from lo to hi is sorted correctly
+*
+************************************************************************/
 template <typename T>
 void Sorts::QuickSort(T &array, int lo, int hi)
 {
@@ -805,6 +1110,16 @@ void Sorts::QuickSort(T &array, int lo, int hi)
     
 }
 
+/**********************************************************************
+* Purpose: Checks to see if the data structure has elements sorted correctly
+*
+* Precondition:
+*     Passed data structure should have m_size elements
+*
+* Postcondition:
+*      returns true if sorted correctly, otherwise returns false
+*
+************************************************************************/
 template <typename T>
 bool Sorts::SortedCorrectly(T & array)
 {

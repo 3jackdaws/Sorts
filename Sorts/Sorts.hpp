@@ -24,6 +24,8 @@ class Sorts
 public:
     Sorts(int size, int iterations = 1);
     ~Sorts();
+	Sorts(const Sorts & cp);
+	Sorts & operator = (const Sorts & rhs);
     
     template <typename T>
     void BubbleSort(T & array);

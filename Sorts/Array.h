@@ -6,7 +6,7 @@
 * Modifications:	1/18/16 - Added documentation
 *
 **************************************************************/
-#define __ARRAY_SUPER_FAST_MODE__
+//#define __ARRAY_SUPER_FAST_MODE__
 /************************************************************************
 * Class: Array
 *
