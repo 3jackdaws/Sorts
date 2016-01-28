@@ -2,7 +2,7 @@
 * Author:		Ian Murphy
 * Filename:		Sorts.cpp
 * Date Created:	1/25ish/2016
-* Modifications:	Check github
+* Modifications:	Check github - github.com/3jackdaws
 **************************************************************/
 
 
