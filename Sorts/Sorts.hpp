@@ -10,6 +10,7 @@
 #define Sorts_hpp
 
 #include <iostream>
+using std::cout;
 #include <vector>
 #include <fstream>
 #include "Array.h"

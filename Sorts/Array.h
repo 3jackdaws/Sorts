@@ -52,7 +52,7 @@ public:
 	~Array();
 
 	Array<T> & operator = (const Array & rhs);
-	T & operator [] (int index);
+	inline T & operator [] (int index);
 	int getStartIndex();
 	void setStartIndex(int index);
 	int getLength();
@@ -200,10 +200,10 @@ T & Array<T>::operator [] (int index)
 	{
         throw Exception("OutOfBoundsException");
 	}
-    
+    return m_array[index - m_start_index];
+#else
+    return m_array[index];
 #endif
-    
-	return m_array[index - m_start_index];
 }
 
 
