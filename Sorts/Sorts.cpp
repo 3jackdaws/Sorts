@@ -7,12 +7,19 @@
 //
 
 #include "Sorts.hpp"
-Sorts::Sorts(int size, int iterations) : m_size(size), m_interations(iterations)
+Sorts::Sorts(int size, int iterations) : m_size(size), m_interations(iterations), m_outfile(std::ofstream("outfile.txt"))
 {
-    m_outfile = std::ofstream("output.txt");
+//    m_outfile = std::ofstream("output.txt");
     m_array = new int[size];
     Init();
     Shuffle();
+    m_outfile<<"Sorting "<<m_size<<" elements."<<std::endl;
+}
+
+Sorts::~Sorts()
+{
+    m_outfile.close();
+    delete [] m_array;
 }
 
 void Sorts::Init()
@@ -49,7 +56,7 @@ void Sorts::Display(T & array)
 {
     for (int i = 0; i<m_size; i++)
     {
-        std::cout<<array[i]<<std::endl;
+        m_outfile<<array[i]<<std::endl;
     }
 }
 
@@ -74,7 +81,7 @@ void Sorts::BubbleSort(T & array)
 
 void Sorts::BubbleSortBench()
 {
-    std::cout<<"\n-------BRUTEFORCE BUBBLESORT--------";
+    m_outfile<<"\n-------BRUTEFORCE BUBBLESORT--------";
     double carray_average = 0;
     double vector_average = 0;
     double myarray_average = 0;
@@ -114,20 +121,21 @@ void Sorts::BubbleSortBench()
         vsc = SortedCorrectly(array);
         msc = SortedCorrectly(array);
         if(csc && vsc && msc)
-            std::cout<<".";
+            m_outfile<<".";
         else{
-            std::cout<<"!";
+            m_outfile<<"!";
             all_correct = false;
         }
+        delete [] array;
     }   //end for loop
     if(all_correct)
-        std::cout<<"\nAll sorts completed correctly!\n";
+        m_outfile<<"\nAll sorts completed correctly!\n";
     else
-        std::cout<<"Sort errors detected.\n";
-    std::cout<<"[500] = "<<c_at_500<<" "<< v_at_500 <<" "<<m_at_500<<std::endl;
-    std::cout<<"C Array average for "<<m_interations<<" iteration(s): "<<(carray_average/m_interations)/1000<< " us";
-    std::cout<<"\nVector average for "<<m_interations<<" iteration(s): "<<(vector_average/m_interations)/1000<< " us";
-    std::cout<<"\nmyarray average for "<<m_interations<<" iteration(s): "<<(myarray_average/m_interations)/1000<< " us"<<std::endl;
+        m_outfile<<"Sort errors detected.\n";
+    m_outfile<<"[500] = "<<c_at_500<<" "<< v_at_500 <<" "<<m_at_500<<std::endl;
+    m_outfile<<"C Array average for "<<m_interations<<" iteration(s): "<<(carray_average/m_interations)/1000<< " us";
+    m_outfile<<"\nVector average for "<<m_interations<<" iteration(s): "<<(vector_average/m_interations)/1000<< " us";
+    m_outfile<<"\nmyarray average for "<<m_interations<<" iteration(s): "<<(myarray_average/m_interations)/1000<< " us"<<std::endl;
 }
 
 
@@ -153,7 +161,7 @@ void Sorts::FlaggedBubble(T & array)
 
 void Sorts::FlaggedBubbleBench()
 {
-    std::cout<<"\n-------FLAGGED BUBBLESORT--------";
+    m_outfile<<"\n-------FLAGGED BUBBLESORT--------";
     double carray_average = 0;
     double vector_average = 0;
     double myarray_average = 0;
@@ -194,20 +202,21 @@ void Sorts::FlaggedBubbleBench()
         vsc = SortedCorrectly(array);
         msc = SortedCorrectly(array);
         if(csc && vsc && msc)
-            std::cout<<".";
+            m_outfile<<".";
         else{
-            std::cout<<"!";
+            m_outfile<<"!";
             all_correct = false;
         }
+        delete [] array;
     }   //end for loop
     if(all_correct)
-        std::cout<<"\nAll sorts completed correctly!\n";
+        m_outfile<<"\nAll sorts completed correctly!\n";
     else
-        std::cout<<"Sort errors detected.\n";
-    std::cout<<"[500] = "<<c_at_500<<" "<< v_at_500 <<" "<<m_at_500<<std::endl;
-    std::cout<<"C Array average for "<<m_interations<<" iteration(s): "<<(carray_average/m_interations)/1000<< " us";
-    std::cout<<"\nVector average for "<<m_interations<<" iteration(s): "<<(vector_average/m_interations)/1000<< " us";
-    std::cout<<"\nmyarray average for "<<m_interations<<" iteration(s): "<<(myarray_average/m_interations)/1000<< " us"<<std::endl;
+        m_outfile<<"Sort errors detected.\n";
+    m_outfile<<"[500] = "<<c_at_500<<" "<< v_at_500 <<" "<<m_at_500<<std::endl;
+    m_outfile<<"C Array average for "<<m_interations<<" iteration(s): "<<(carray_average/m_interations)/1000<< " us";
+    m_outfile<<"\nVector average for "<<m_interations<<" iteration(s): "<<(vector_average/m_interations)/1000<< " us";
+    m_outfile<<"\nmyarray average for "<<m_interations<<" iteration(s): "<<(myarray_average/m_interations)/1000<< " us"<<std::endl;
 }
 
 
@@ -236,7 +245,7 @@ void Sorts::StraightSelection(T & array)
 
 void Sorts::StraightSelectionBench()
 {
-    std::cout<<"\n-------STRAIGHT SELECTION--------";
+    m_outfile<<"\n-------STRAIGHT SELECTION--------";
     double carray_average = 0;
     double vector_average = 0;
     double myarray_average = 0;
@@ -277,20 +286,21 @@ void Sorts::StraightSelectionBench()
         vsc = SortedCorrectly(array);
         msc = SortedCorrectly(array);
         if(csc && vsc && msc)
-            std::cout<<".";
+            m_outfile<<".";
         else{
-            std::cout<<"!";
+            m_outfile<<"!";
             all_correct = false;
         }
+        delete [] array;
     }   //end for loop
     if(all_correct)
-        std::cout<<"\nAll sorts completed correctly!\n";
+        m_outfile<<"\nAll sorts completed correctly!\n";
     else
-        std::cout<<"Sort errors detected.\n";
-    std::cout<<"[500] = "<<c_at_500<<" "<< v_at_500 <<" "<<m_at_500<<std::endl;
-    std::cout<<"C Array average for "<<m_interations<<" iteration(s): "<<(carray_average/m_interations)/1000<< " us";
-    std::cout<<"\nVector average for "<<m_interations<<" iteration(s): "<<(vector_average/m_interations)/1000<< " us";
-    std::cout<<"\nmyarray average for "<<m_interations<<" iteration(s): "<<(myarray_average/m_interations)/1000<< " us"<<std::endl;
+        m_outfile<<"Sort errors detected.\n";
+    m_outfile<<"[500] = "<<c_at_500<<" "<< v_at_500 <<" "<<m_at_500<<std::endl;
+    m_outfile<<"C Array average for "<<m_interations<<" iteration(s): "<<(carray_average/m_interations)/1000<< " us";
+    m_outfile<<"\nVector average for "<<m_interations<<" iteration(s): "<<(vector_average/m_interations)/1000<< " us";
+    m_outfile<<"\nmyarray average for "<<m_interations<<" iteration(s): "<<(myarray_average/m_interations)/1000<< " us"<<std::endl;
 }
 
 template <typename T>
@@ -319,7 +329,7 @@ void Sorts::LinearInsertion(T & array)
 
 void Sorts::LinearInsertionBench()
 {
-    std::cout<<"\n-------LINEAR INSERTION--------";
+    m_outfile<<"\n-------LINEAR INSERTION--------";
     double carray_average = 0;
     double vector_average = 0;
     double myarray_average = 0;
@@ -360,20 +370,21 @@ void Sorts::LinearInsertionBench()
         vsc = SortedCorrectly(array);
         msc = SortedCorrectly(array);
         if(csc && vsc && msc)
-            std::cout<<".";
+            m_outfile<<".";
         else{
-            std::cout<<"!";
+            m_outfile<<"!";
             all_correct = false;
         }
+        delete [] array;
     }   //end for loop
     if(all_correct)
-        std::cout<<"\nAll sorts completed correctly!\n";
+        m_outfile<<"\nAll sorts completed correctly!\n";
     else
-        std::cout<<"Sort errors detected.\n";
-    std::cout<<"[500] = "<<c_at_500<<" "<< v_at_500 <<" "<<m_at_500<<std::endl;
-    std::cout<<"C Array average for "<<m_interations<<" iteration(s): "<<(carray_average/m_interations)/1000<< " us";
-    std::cout<<"\nVector average for "<<m_interations<<" iteration(s): "<<(vector_average/m_interations)/1000<< " us";
-    std::cout<<"\nmyarray average for "<<m_interations<<" iteration(s): "<<(myarray_average/m_interations)/1000<< " us"<<std::endl;
+        m_outfile<<"Sort errors detected.\n";
+    m_outfile<<"[500] = "<<c_at_500<<" "<< v_at_500 <<" "<<m_at_500<<std::endl;
+    m_outfile<<"C Array average for "<<m_interations<<" iteration(s): "<<(carray_average/m_interations)/1000<< " us";
+    m_outfile<<"\nVector average for "<<m_interations<<" iteration(s): "<<(vector_average/m_interations)/1000<< " us";
+    m_outfile<<"\nmyarray average for "<<m_interations<<" iteration(s): "<<(myarray_average/m_interations)/1000<< " us"<<std::endl;
 }
 
 
@@ -406,7 +417,7 @@ void Sorts::ShellSort(T & array)
 
 void Sorts::ShellSortBench()
 {
-    std::cout<<"\n-------SHELL SORT--------";
+    m_outfile<<"\n-------SHELL SORT--------";
     double carray_average = 0;
     double vector_average = 0;
     double myarray_average = 0;
@@ -447,20 +458,21 @@ void Sorts::ShellSortBench()
         vsc = SortedCorrectly(array);
         msc = SortedCorrectly(array);
         if(csc && vsc && msc)
-            std::cout<<".";
+            m_outfile<<".";
         else{
-            std::cout<<"!";
+            m_outfile<<"!";
             all_correct = false;
         }
+        delete [] array;
     }   //end for loop
     if(all_correct)
-        std::cout<<"\nAll sorts completed correctly!\n";
+        m_outfile<<"\nAll sorts completed correctly!\n";
     else
-        std::cout<<"Sort errors detected.\n";
-    std::cout<<"[500] = "<<c_at_500<<" "<< v_at_500 <<" "<<m_at_500<<std::endl;
-    std::cout<<"C Array average for "<<m_interations<<" iteration(s): "<<(carray_average/m_interations)/1000<< " us";
-    std::cout<<"\nVector average for "<<m_interations<<" iteration(s): "<<(vector_average/m_interations)/1000<< " us";
-    std::cout<<"\nmyarray average for "<<m_interations<<" iteration(s): "<<(myarray_average/m_interations)/1000<< " us"<<std::endl;
+        m_outfile<<"Sort errors detected.\n";
+    m_outfile<<"[500] = "<<c_at_500<<" "<< v_at_500 <<" "<<m_at_500<<std::endl;
+    m_outfile<<"C Array average for "<<m_interations<<" iteration(s): "<<(carray_average/m_interations)/1000<< " us";
+    m_outfile<<"\nVector average for "<<m_interations<<" iteration(s): "<<(vector_average/m_interations)/1000<< " us";
+    m_outfile<<"\nmyarray average for "<<m_interations<<" iteration(s): "<<(myarray_average/m_interations)/1000<< " us"<<std::endl;
 }
 
 template <typename T>
@@ -517,7 +529,7 @@ void Sorts::BuildHeap(T & array)
 
 void Sorts::HeapSortBench()
 {
-    std::cout<<"\n-------HEAP SORT--------";
+    m_outfile<<"\n-------HEAP SORT--------";
     double carray_average = 0;
     double vector_average = 0;
     double myarray_average = 0;
@@ -559,25 +571,26 @@ void Sorts::HeapSortBench()
         vsc = SortedCorrectly(array);
         msc = SortedCorrectly(array);
         if(csc && vsc && msc)
-            std::cout<<".";
+            m_outfile<<".";
         else{
-            std::cout<<"!";
+            m_outfile<<"!";
             all_correct = false;
         }
+        delete [] array;
     }   //end for loop
     if(all_correct)
-        std::cout<<"\nAll sorts completed correctly!\n";
+        m_outfile<<"\nAll sorts completed correctly!\n";
     else
-        std::cout<<"Sort errors detected.\n";
-    std::cout<<"[500] = "<<c_at_500<<" "<< v_at_500 <<" "<<m_at_500<<std::endl;
-    std::cout<<"C Array average for "<<m_interations<<" iteration(s): "<<(carray_average/m_interations)/1000<< " us";
-    std::cout<<"\nVector average for "<<m_interations<<" iteration(s): "<<(vector_average/m_interations)/1000<< " us";
-    std::cout<<"\nmyarray average for "<<m_interations<<" iteration(s): "<<(myarray_average/m_interations)/1000<< " us"<<std::endl;
+        m_outfile<<"Sort errors detected.\n";
+    m_outfile<<"[500] = "<<c_at_500<<" "<< v_at_500 <<" "<<m_at_500<<std::endl;
+    m_outfile<<"C Array average for "<<m_interations<<" iteration(s): "<<(carray_average/m_interations)/1000<< " us";
+    m_outfile<<"\nVector average for "<<m_interations<<" iteration(s): "<<(vector_average/m_interations)/1000<< " us";
+    m_outfile<<"\nmyarray average for "<<m_interations<<" iteration(s): "<<(myarray_average/m_interations)/1000<< " us"<<std::endl;
 }
 
 void Sorts::MergeSortBench()
 {
-    std::cout<<"\n-------MERGE SORT--------";
+    m_outfile<<"\n-------MERGE SORT--------";
     double carray_average = 0;
     double vector_average = 0;
     double myarray_average = 0;
@@ -618,20 +631,21 @@ void Sorts::MergeSortBench()
         vsc = SortedCorrectly(array);
         msc = SortedCorrectly(array);
         if(csc && vsc && msc)
-            std::cout<<".";
+            m_outfile<<".";
         else{
-            std::cout<<"!";
+            m_outfile<<"!";
             all_correct = false;
         }
+        delete [] array;
     }   //end for loop
     if(all_correct)
-        std::cout<<"\nAll sorts completed correctly!\n";
+        m_outfile<<"\nAll sorts completed correctly!\n";
     else
-        std::cout<<"Sort errors detected.\n";
-    std::cout<<"[500] = "<<c_at_500<<" "<< v_at_500 <<" "<<m_at_500<<std::endl;
-    std::cout<<"C Array average for "<<m_interations<<" iteration(s): "<<(carray_average/m_interations)/1000<< " us";
-    std::cout<<"\nVector average for "<<m_interations<<" iteration(s): "<<(vector_average/m_interations)/1000<< " us";
-    std::cout<<"\nmyarray average for "<<m_interations<<" iteration(s): "<<(myarray_average/m_interations)/1000<< " us"<<std::endl;
+        m_outfile<<"Sort errors detected.\n";
+    m_outfile<<"[500] = "<<c_at_500<<" "<< v_at_500 <<" "<<m_at_500<<std::endl;
+    m_outfile<<"C Array average for "<<m_interations<<" iteration(s): "<<(carray_average/m_interations)/1000<< " us";
+    m_outfile<<"\nVector average for "<<m_interations<<" iteration(s): "<<(vector_average/m_interations)/1000<< " us";
+    m_outfile<<"\nmyarray average for "<<m_interations<<" iteration(s): "<<(myarray_average/m_interations)/1000<< " us"<<std::endl;
 }
 
 template <typename T>
@@ -641,6 +655,7 @@ void Sorts::MergeSort(T & array)
     
     MergeSort(array, temp, 0, m_size);
     
+    delete [] temp;
     
 }
 
@@ -686,7 +701,7 @@ void Sorts::Merge(T & array, int * temp, int left, int right, int re)
 
 void Sorts::QuickSortBench()
 {
-    std::cout<<"\n-------QUICK SORT--------";
+    m_outfile<<"\n-------QUICK SORT--------";
     double carray_average = 0;
     double vector_average = 0;
     double myarray_average = 0;
@@ -727,20 +742,21 @@ void Sorts::QuickSortBench()
         vsc = SortedCorrectly(array);
         msc = SortedCorrectly(array);
         if(csc && vsc && msc)
-            std::cout<<".";
+            m_outfile<<".";
         else{
-            std::cout<<"!";
+            m_outfile<<"!";
             all_correct = false;
         }
+        delete [] array;
     }   //end for loop
     if(all_correct)
-        std::cout<<"\nAll sorts completed correctly!\n";
+        m_outfile<<"\nAll sorts completed correctly!\n";
     else
-        std::cout<<"Sort errors detected.\n";
-    std::cout<<"[500] = "<<c_at_500<<" "<< v_at_500 <<" "<<m_at_500<<std::endl;
-    std::cout<<"C Array average for "<<m_interations<<" iteration(s): "<<(carray_average/m_interations)/1000<< " us ";
-    std::cout<<"\nVector average for "<<m_interations<<" iteration(s): "<<(vector_average/m_interations)/1000<< " us";
-    std::cout<<"\nmyarray average for "<<m_interations<<" iteration(s): "<<(myarray_average/m_interations)/1000<< " us"<<std::endl;
+        m_outfile<<"Sort errors detected.\n";
+    m_outfile<<"[500] = "<<c_at_500<<" "<< v_at_500 <<" "<<m_at_500<<std::endl;
+    m_outfile<<"C Array average for "<<m_interations<<" iteration(s): "<<(carray_average/m_interations)/1000<< " us ";
+    m_outfile<<"\nVector average for "<<m_interations<<" iteration(s): "<<(vector_average/m_interations)/1000<< " us";
+    m_outfile<<"\nmyarray average for "<<m_interations<<" iteration(s): "<<(myarray_average/m_interations)/1000<< " us"<<std::endl;
 }
 
 template <typename T>

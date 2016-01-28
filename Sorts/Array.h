@@ -6,7 +6,7 @@
 * Modifications:	1/18/16 - Added documentation
 *
 **************************************************************/
-
+#define __ARRAY_SUPER_FAST_MODE__
 /************************************************************************
 * Class: Array
 *
@@ -72,7 +72,11 @@ public:
 template <typename T>
 Array<T>::Array() :m_array(nullptr), m_length(0), m_start_index(0)
 {
-	
+#ifndef __ARRAY_SUPER_FAST_MODE__
+    
+    std::cout<<"Super fast mode is disabled"<<std::endl;
+    
+#endif
 }
 
 /**********************************************************************
@@ -95,6 +99,11 @@ Array<T>::Array(int length, int start_index) : m_length(length), m_start_index(s
     else{
         m_array = nullptr;
     }
+#ifndef __ARRAY_SUPER_FAST_MODE__
+    
+    std::cout<<"Super fast mode is disabled"<<std::endl;
+    
+#endif
 }
 
 /**********************************************************************
@@ -184,10 +193,16 @@ Array<T> & Array<T>::operator = (const Array<T> & rhs)
 template <typename T>
 T & Array<T>::operator [] (int index)
 {
+    
+#ifndef __ARRAY_SUPER_FAST_MODE__
+    
 	if (index >= m_start_index + m_length || index < m_start_index)
 	{
         throw Exception("OutOfBoundsException");
 	}
+    
+#endif
+    
 	return m_array[index - m_start_index];
 }
 

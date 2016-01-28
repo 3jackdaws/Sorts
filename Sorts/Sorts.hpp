@@ -21,7 +21,8 @@ using time_point = std::chrono::steady_clock::time_point;
 class Sorts
 {
 public:
-    Sorts( int size, int iterations = 1);
+    Sorts(int size, int iterations = 1);
+    ~Sorts();
     
     template <typename T>
     void BubbleSort(T & array);
