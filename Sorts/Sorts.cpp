@@ -8,6 +8,11 @@
 
 #include "Sorts.hpp"
 
+Sorts::Sorts() : m_size(0), m_interations(0), m_outfile(std::ofstream("output.txt")), m_array(nullptr)
+{
+
+}
+
 /**********************************************************************
 * Purpose: This is a ctor.
 *
@@ -20,7 +25,6 @@
 ************************************************************************/
 Sorts::Sorts(int size, int iterations) : m_size(size), m_interations(iterations), m_outfile(std::ofstream("output.txt"))
 {
-
     m_array = new int[size];
     Init();
     Shuffle();
@@ -41,6 +45,9 @@ Sorts::~Sorts()
 {
     m_outfile.close();
     delete [] m_array;
+	m_array = nullptr;
+	m_size = 0;
+	m_interations = 0;
 }
 
 /**********************************************************************
